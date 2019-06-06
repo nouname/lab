@@ -11,7 +11,6 @@ install:
   - sudo apt-get install libgl1-mesa-dev
   - if [ "$QT_BASE" = "512" ]; then sudo apt-get install qt512webengine ; source /opt/qt512/bin/qt512-env.sh ; export QTHOME=/opt/qt512 ; fi
 script:
-    - echo $VAR
     - export QT_QPA_PLATFORM=offscreen
     # Auto-auth
     - "./util/util"
