@@ -1,5 +1,5 @@
 /** Модуль автоматической авторизации;
-  * только для тестированияю
+  * только для тестирования.
   */
 
 #include <QApplication>
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     VK::Client api;
-    if (api.auth(getenv("LOGIN"), getenv("PASS"))){
+    if (api.auth(string(getenv("LOGIN")), string(getenv("PASS")))){
       QFile f("data");
       f.open(QFile::WriteOnly);
       f.write(api.access_token().c_str());

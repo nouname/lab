@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include <QWindow>
+#include "../app/datareceiver.h"
 #include "../app/token.h"
 #include "../app/vk.h"
 #include "../app/postloader.h"
@@ -88,6 +89,29 @@ TEST(utils, saveTokenTest) {
  * END
  */
 
+/** MODULE DATARECEIVER
+ * BEGIN
+ */
+
+/* Data receive tests */
+
+TEST(dr, setSourceToReceive) {
+    DataReceiver receiver;
+    receiver.setUrl("https://www.google.ru");
+    EXPECT_STRNE(receiver.getUrl().toStdString().c_str(), "");
+}
+
+TEST(dr, getData) {
+    DataReceiver receiver;
+    VK vk;
+    receiver.setUrl("https://api.vk.com/method/users.get?access_token=" + vk.getTokenFromFile()->getValue() + "&v=5.52");
+    EXPECT_STRNE(receiver.getData().toStdString().c_str(), "");
+}
+
+/** MODULE DATARECEIVER
+ * END
+ */
+
 /** MODULE DATALOADER
  * BEGIN
  */
@@ -109,5 +133,23 @@ TEST(dl, setData) {
 }
 
 /** MODULE DATALOADER
+ * END
+ */
+
+/** MODULE THREADS
+ * BEGIN
+ */
+
+/* Testing threads */
+
+TEST(threads, endOfFeedException) {
+    PostLoader loader;
+    loader.getPosts(10000000);
+    loader.thread->run();
+    loader.thread->terminate();
+    EXPECT_TRUE(loader.thread->isEndOfFeed());
+}
+
+/** MODULE THREADS
  * END
  */

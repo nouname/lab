@@ -1,7 +1,8 @@
 dist: xenial
 language: cpp
 os: linux
-env: QT_BASE=512 VER=6.0 STDFLAGS="-std=c++11 -std=c++14 -std=c++17" BUILD_TYPE=Release
+env: 
+- QT_BASE=512 VER=6.0 STDFLAGS="-std=c++11 -std=c++14 -std=c++17" BUILD_TYPE=Release
 before_install:
   - pip install --user cpp-coveralls
   - if [ "$QT_BASE" = "512" ]; then sudo add-apt-repository ppa:beineri/opt-qt-5.12.0-xenial -y; fi
@@ -12,11 +13,13 @@ install:
 script:
     - export QT_QPA_PLATFORM=offscreen
     - qmake
-    - make 
+    - make
     # Auto-auth
-    - "./util/util"
+    - "./util/util" 
     # Tests
     - "./l8-test/l8-test"
 after_success:
 - coveralls --root . -E ".*external.*" -E ".*tests.*"
+- build-wrapper-linux-x86-64 --out-dir bw-output make clean all
+- sonar-scanner -D"sonar.projectKey=nouname_lab8" -D"sonar.organization=nouname-github" -D"sonar.sources=." -D"sonar.cfamily.build-wrapper-output=bw-output" -D"sonar.host.url=https://sonarcloud.io" -D"sonar.login=e583f06b31ac32128d0ae2d78b9ccd77367522e2"
     

@@ -18,6 +18,7 @@ public slots:
 
 signals:
     void loaded(QString title, QString avaUrl, QString text, QList<QVariant> images, bool showThisPost);
+    void done();
 
 private:
     QString name;

@@ -10,7 +10,7 @@
 class LoadThread : public QThread
 {
     Q_OBJECT
-    Q_PROPERTY(QByteArray data READ getData WRITE setData NOTIFY dataChanged)
+    Q_PROPERTY(QByteArray data WRITE setData NOTIFY dataChanged)
 
 public:
     void run();
@@ -24,17 +24,20 @@ signals:
     void endLoad(QString title, QString avaUrl, QString text, QList<QVariant> images, bool showThisPost);
     void startLoad(QJsonValue object);
     void dataChanged();
+    void done();
 
 private slots:
     void load(QJsonValue object);
     void loadData(QString title, QString avaUrl, QString text, QList<QVariant> images, bool showThisPost);
+
+public slots:
     void stop();
 
 private:
     QByteArray data;
-    bool endOfFeed = false;
     DataLoadThread *thread;
     void timeout(int ms);
+    bool endOfFeed = false;
 };
 
 #endif // LOADTHREAD_H
