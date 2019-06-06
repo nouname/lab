@@ -11,10 +11,10 @@ install:
   - if [ "$QT_BASE" = "512" ]; then sudo apt-get install qt512webengine ; source /opt/qt512/bin/qt512-env.sh ; export QTHOME=/opt/qt512 ; fi
 script:
     - export QT_QPA_PLATFORM=offscreen
-    # Auto-auth
-    - "./util/util"
     - qmake
     - make 
+    # Auto-auth
+    - "./util/util"
     # Tests
     - "./l8-test/l8-test"
 after_success:
