@@ -117,6 +117,7 @@ TEST(dr, getDataTest) {
 TEST(dl, loadDataTest) {
     PostLoader loader;
     loader.getPosts(0);
+    loader.thread->run();
     loader.thread->terminate();
     EXPECT_TRUE(loader.thread->isRunning());
 }
@@ -124,6 +125,7 @@ TEST(dl, loadDataTest) {
 TEST(dl, setDataTest) {
     PostLoader loader;
     loader.getPosts(0);
+    loader.thread->run();
     loader.thread->terminate();
     EXPECT_NE(loader.getData(), nullptr);
 }
