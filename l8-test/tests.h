@@ -146,7 +146,6 @@ TEST(threads, endOfFeedException) {
     PostLoader loader;
     loader.getPosts(10000000);
     loader.thread->run();
-    loader.thread->terminate();
     EXPECT_TRUE(loader.thread->isEndOfFeed());
 }
 
