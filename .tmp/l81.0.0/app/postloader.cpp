@@ -12,7 +12,7 @@ static int offset = 0;
 
 PostLoader::PostLoader(QObject *parent) : QObject (parent)
 {
-    getPosts(0);
+    getPosts(offset);
 }
 
 Post *PostLoader::getData()

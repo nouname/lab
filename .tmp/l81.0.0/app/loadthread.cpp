@@ -23,16 +23,13 @@ void LoadThread::setData(QByteArray data)
     this->data = data;
 }
 
-QByteArray LoadThread::getData()
-{
-    return data;
-}
-
 void LoadThread::run()
 {
     QJsonObject root = QJsonDocument::fromJson(data).object();
     if (!root.value("error").isUndefined() || root.value("response").toObject().value("items").toArray().isEmpty()) {
         endOfFeed = true;
+        emit done();
+        qDebug() << endOfFeed;
         return;
     }
 
@@ -62,10 +59,12 @@ void LoadThread::loadData(QString title, QString avaUrl, QString text, QList<QVa
 
 void LoadThread::stop()
 {
+    emit done();
     quit();
     requestInterruption();
-    if (isInterruptionRequested())
+    if (isInterruptionRequested()) {
         return;
+    }
 }
 
 void LoadThread::timeout(int ms)

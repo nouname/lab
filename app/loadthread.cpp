@@ -59,6 +59,7 @@ void LoadThread::loadData(QString title, QString avaUrl, QString text, QList<QVa
 
 void LoadThread::stop()
 {
+    emit done();
     quit();
     requestInterruption();
     if (isInterruptionRequested()) {

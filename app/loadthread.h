@@ -18,6 +18,7 @@ public:
     LoadThread();
     void setData(QByteArray data);
     QByteArray getData();
+    DataLoadThread *thread;
     QList<QList<QVariant>> list;
 
 signals:
@@ -26,16 +27,13 @@ signals:
     void dataChanged();
     void done();
 
-private slots:
-    void load(QJsonValue object);
-    void loadData(QString title, QString avaUrl, QString text, QList<QVariant> images, bool showThisPost);
-
 public slots:
+    void loadData(QString title, QString avaUrl, QString text, QList<QVariant> images, bool showThisPost);
     void stop();
+    void load(QJsonValue object);
 
 private:
     QByteArray data;
-    DataLoadThread *thread;
     void timeout(int ms);
     bool endOfFeed = false;
 };

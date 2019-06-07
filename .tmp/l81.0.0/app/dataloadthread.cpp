@@ -59,10 +59,12 @@ void DataLoadThread::run()
 
 void DataLoadThread::stop()
 {
+    emit done();
     quit();
     requestInterruption();
-    if (isInterruptionRequested())
+    if (isInterruptionRequested()) {
         return;
+    }
 }
 
 

@@ -12,6 +12,7 @@ class DataLoadThread : public QThread
 public:
     explicit DataLoadThread(QString s, QJsonValue object);
     void run();
+    QList<QVariant> images;
 
 public slots:
     void stop();
@@ -23,7 +24,7 @@ signals:
 private:
     QString name;
     QJsonValue object;
-    QList<QVariant> images;
+
     QString title, avaUrl, text;
     bool showThisPost = true;
     void timeout(int ms);

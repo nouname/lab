@@ -14,8 +14,6 @@ using namespace testing;
  * BEGIN
  */
 
-/* Auth tests */
-
 TEST(auth, loadLoginDataTest) {
     VK vk;
     Token *token = vk.getTokenFromFile();
@@ -55,8 +53,6 @@ TEST(auth, logoutTest) {
     backup.rename("data");
     EXPECT_TRUE(result);
 }
-
-/* Utils tests */
 
 TEST(utils, currentTokenTest) {
     VK vk;
@@ -101,7 +97,7 @@ TEST(dr, setSourceToReceive) {
     EXPECT_STRNE(receiver.getUrl().toStdString().c_str(), "");
 }
 
-TEST(dr, getData) {
+TEST(dr, getDataTest) {
     DataReceiver receiver;
     VK vk;
     receiver.setUrl("https://api.vk.com/method/users.get?access_token=" + vk.getTokenFromFile()->getValue() + "&v=5.52");
@@ -118,18 +114,38 @@ TEST(dr, getData) {
 
 /* Data loading tests */
 
-TEST(dl, loadData) {
+TEST(dl, loadDataTest) {
     PostLoader loader;
     loader.getPosts(0);
     loader.thread->terminate();
     EXPECT_TRUE(loader.thread->isRunning());
 }
 
-TEST(dl, setData) {
+TEST(dl, setDataTest) {
     PostLoader loader;
     loader.getPosts(0);
     loader.thread->terminate();
     EXPECT_NE(loader.getData(), nullptr);
+}
+
+TEST(dl, getPostDataTest1) {
+    Post post;
+    EXPECT_STREQ(post.getTitle().toStdString().c_str(), "");
+}
+
+TEST(dl, getPostDataTest2) {
+    Post post;
+    EXPECT_STREQ(post.getAva().toStdString().c_str(), "");
+}
+
+TEST(dl, getPostDataTest3) {
+    Post post;
+    EXPECT_STREQ(post.getText().toStdString().c_str(), "");
+}
+
+TEST(dl, getPostDataTest4) {
+    Post post;
+    EXPECT_TRUE(post.getImages().isEmpty());
 }
 
 /** MODULE DATALOADER
@@ -147,6 +163,14 @@ TEST(threads, endOfFeedException) {
     loader.getPosts(10000000);
     loader.thread->run();
     EXPECT_TRUE(loader.thread->isEndOfFeed());
+}
+
+TEST(threads, stopLoadTest) {
+    PostLoader loader;
+    loader.getPosts(0);
+    loader.thread->stop();
+    loader.thread->wait(500);
+    EXPECT_FALSE(loader.thread->isRunning());
 }
 
 /** MODULE THREADS
